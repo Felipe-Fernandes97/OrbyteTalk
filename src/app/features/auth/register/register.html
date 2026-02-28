@@ -1,0 +1,38 @@
+<div class="register-container">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <div class="register-wrapper">
+    <div class="register-header">
+      <h1 class="register-title">OrbyteTalk</h1>
+      <p class="register-subtitle">Crie sua conta</p>
+    </div>
+
+    <form class="register-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput type="text" placeholder="Seu nome" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>E-mail</mat-label>
+        <input matInput type="email" placeholder="seu@email.com" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Senha</mat-label>
+        <input matInput type="password" placeholder="••••••••" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Confirmar senha</mat-label>
+        <input matInput type="password" placeholder="••••••••" />
+      </mat-form-field>
+
+      <div class="register-actions">
+        <button mat-flat-button type="submit">Criar conta</button>
+        <button mat-flat-button type="button" routerLink="/login">Já tenho conta</button>
+      </div>
+    </form>
+  </div>
+</div>

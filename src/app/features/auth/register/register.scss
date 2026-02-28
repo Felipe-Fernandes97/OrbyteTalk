@@ -1,4 +1,4 @@
-.login-container {
+.register-container {
   height: 100vh;
   display: flex;
   align-items: center;
@@ -20,7 +20,7 @@
     height: 400px;
     background: #5b2d8e;
     top: -80px;
-    left: -80px;
+    right: -80px;
   }
 
   &-2 {
@@ -28,11 +28,11 @@
     height: 350px;
     background: #2d1b69;
     bottom: -60px;
-    right: -60px;
+    left: -60px;
   }
 }
 
-.login-wrapper {
+.register-wrapper {
   position: relative;
   z-index: 1;
   width: 100%;
@@ -42,24 +42,24 @@
   gap: 24px;
 }
 
-.login-header {
+.register-header {
   text-align: center;
 }
 
-.login-title {
+.register-title {
   color: #ffffff;
   font-size: 32px;
   font-weight: 700;
   letter-spacing: -0.5px;
 }
 
-.login-subtitle {
+.register-subtitle {
   color: rgba(255, 255, 255, 0.45);
   font-size: 14px;
   margin-top: 6px;
 }
 
-.login-form {
+.register-form {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -88,7 +88,7 @@
     }
   }
 
-  .login-actions {
+  .register-actions {
     display: flex;
     gap: 12px;
     justify-content: center;

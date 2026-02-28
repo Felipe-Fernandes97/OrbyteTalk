@@ -1,11 +1,14 @@
 <div class="login-container">
-  <div class="login-card">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
 
-    <h1 class="login-title">OrbyteTalk</h1>
-    <p class="login-subtitle">Entre na sua conta</p>
+  <div class="login-wrapper">
+    <div class="login-header">
+      <h1 class="login-title">OrbyteTalk</h1>
+      <p class="login-subtitle">Entre na sua conta</p>
+    </div>
 
     <form class="login-form">
-
       <mat-form-field appearance="outline">
         <mat-label>E-mail</mat-label>
         <input matInput type="email" placeholder="seu@email.com" />
@@ -16,9 +19,10 @@
         <input matInput type="password" placeholder="••••••••" />
       </mat-form-field>
 
-      <button mat-flat-button type="submit">
-        Entrar
-      </button>
+      <div class="login-actions">
+        <button mat-flat-button type="submit">Entrar</button>
+        <button mat-flat-button type="button" routerLink="/register">Cadastre-se</button>
+      </div>
 
     </form>
   </div>
