@@ -1,0 +1,119 @@
+<!-- Backdrop - click closes modal -->
+<div class="modal-overlay"
+     *ngIf="isOpen$ | async"
+     (click)="close()">
+</div>
+
+<!-- Modal panel - stopPropagation prevents backdrop click from firing inside -->
+<div class="modal-panel" [class.open]="isOpen$ | async">
+
+  <!-- Header -->
+  <div class="modal-header">
+    <h2 class="modal-title">Nova Conversa</h2>
+    <button class="modal-close-btn" (click)="close()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Tab bar -->
+  <div class="modal-tabs">
+    <button class="tab-btn" [class.active]="activeTab === 'direct'"
+            (click)="setTab('direct')">
+      Nova Conversa
+    </button>
+    <button class="tab-btn" [class.active]="activeTab === 'group'"
+            (click)="setTab('group')">
+      Criar Grupo
+    </button>
+  </div>
+
+  <!-- Tab content -->
+  <div class="modal-body" (click)="stopPropagation($event)">
+
+    <!-- Search input (shared between both tabs) -->
+    <div class="search-wrapper">
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+      </svg>
+      <input type="text"
+             class="search-input"
+             placeholder="Buscar usuários..."
+             [(ngModel)]="searchQuery"
+             (ngModelChange)="onSearchInput()" />
+    </div>
+
+    <!-- GROUP TAB ONLY: group name input + selected chips -->
+    <ng-container *ngIf="activeTab === 'group'">
+      <input type="text"
+             class="group-name-input"
+             placeholder="Nome do grupo..."
+             [(ngModel)]="groupName"
+             (ngModelChange)="onGroupNameInput()" />
+
+      <div class="selected-chips" *ngIf="(selectedUsers$ | async)?.length">
+        <div class="chip"
+             *ngFor="let user of selectedUsers$ | async"
+             (click)="toggleUser(user)">
+          {{ user.name }} &times;
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- User list -->
+    <div class="user-list-modal">
+      <div class="user-list-item"
+           *ngFor="let user of filteredUsers$ | async"
+           [class.selected]="isSelected(user.id)"
+           (click)="activeTab === 'direct' ? startDirect(user) : toggleUser(user)">
+
+        <!-- Avatar with online dot -->
+        <div class="avatar-wrapper">
+          <div class="avatar">{{ user.avatarInitial }}</div>
+          <span class="online-dot" *ngIf="user.isOnline"></span>
+        </div>
+
+        <!-- User info -->
+        <div class="user-info">
+          <span class="user-name">{{ user.name }}</span>
+          <span class="user-last-msg" *ngIf="user.lastMessage">
+            {{ user.lastMessage }}
+          </span>
+        </div>
+
+        <!-- Group checkmark indicator -->
+        <div class="check-indicator" *ngIf="activeTab === 'group'">
+          <svg *ngIf="isSelected(user.id)"
+               xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+               viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty-state"
+           *ngIf="(filteredUsers$ | async)?.length === 0">
+        Nenhum usuário encontrado
+      </div>
+    </div>
+
+  </div><!-- end modal-body -->
+
+  <!-- Footer action button -->
+  <div class="modal-footer">
+    <!-- DIRECT tab footer: no button needed (clicking user row starts conversation) -->
+
+    <!-- GROUP tab footer -->
+    <button class="action-btn"
+            *ngIf="activeTab === 'group'"
+            (click)="createGroup()"
+            [disabled]="!(selectedUsers$ | async)?.length || !groupName">
+      Criar grupo
+    </button>
+  </div>
+
+</div>
