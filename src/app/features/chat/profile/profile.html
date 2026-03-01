@@ -1,0 +1,43 @@
+<div class="profile-container">
+  <div class="profile-header">
+    <button class="back-btn" routerLink="/chat">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+    </button>
+    <h1>Perfil</h1>
+    <div style="width: 40px;"></div>
+  </div>
+
+  <div class="profile-content">
+    <div class="avatar-section">
+      <div class="avatar-large">F</div>
+      <button class="upload-btn">Trocar foto</button>
+      <input type="file" accept="image/*" hidden #fileInput />
+    </div>
+
+    <form class="profile-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput type="text" value="Felipe" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>E-mail</mat-label>
+        <input matInput type="email" value="felipe@email.com" disabled />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Pensamento</mat-label>
+        <textarea matInput rows="3" placeholder="Adicione um pensamento..."></textarea>
+      </mat-form-field>
+
+      <div class="status-section">
+        <span class="status-label">Status online</span>
+        <mat-slide-toggle></mat-slide-toggle>
+      </div>
+
+      <button mat-flat-button class="save-btn" type="submit">Salvar alterações</button>
+    </form>
+  </div>
+</div>

@@ -34,10 +34,12 @@
       </div>
     </div>
 
-    <div class="sidebar-footer">
+    <div class="sidebar-footer" (click)="toggleProfile()">
       <div class="avatar">V</div>
       <span class="my-name">Você</span>
     </div>
+
+
   </aside>
 
   <!-- Área de chat -->
@@ -63,10 +65,13 @@
       <input type="text" placeholder="Digite uma mensagem..." class="message-input" />
       <button class="send-btn">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/>
+          <path d="M2 21l21-9L2 3v7l15 2-15 2v7z" />
         </svg>
       </button>
     </div>
   </main>
+  <!-- Adiciona no final, antes de fechar -->
+<app-profile-drawer></app-profile-drawer>
+
 
 </div>

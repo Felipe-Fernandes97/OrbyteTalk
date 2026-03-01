@@ -1,0 +1,165 @@
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.profile-drawer {
+  position: fixed;
+  left: -400px;
+  top: 0;
+  width: 400px;
+  height: 100vh;
+  background: #0a0812;
+  border-right: 1px solid #1e1535;
+  z-index: 1000;
+  transition: left 0.3s ease;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  &.open {
+    left: 0;
+  }
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid #1e1535;
+
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+  }
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #130f25;
+  }
+}
+
+.drawer-content {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar-large {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #3d2a8e;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 32px;
+}
+
+.upload-btn {
+  background: #3d2a8e;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #4e38a8;
+  }
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  mat-form-field {
+    width: 100%;
+
+    ::ng-deep {
+      .mdc-notched-outline__leading,
+      .mdc-notched-outline__notch,
+      .mdc-notched-outline__trailing {
+        border-color: #1e1535 !important;
+      }
+
+      .mdc-floating-label {
+        color: rgba(255, 255, 255, 0.6) !important;
+      }
+
+      .mat-mdc-input-element {
+        color: #ffffff !important;
+      }
+
+      textarea {
+        color: #ffffff !important;
+      }
+    }
+  }
+}
+
+.status-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  background: #130f25;
+  border: 1px solid #1e1535;
+  border-radius: 6px;
+}
+
+.status-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.save-btn {
+  width: 100%;
+  padding: 10px;
+  background: #3d2a8e !important;
+  color: #ffffff !important;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  margin-top: 8px;
+
+  &:hover {
+    background: #4e38a8 !important;
+  }
+}

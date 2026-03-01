@@ -1,0 +1,43 @@
+<div class="drawer-overlay" *ngIf="isOpen$ | async" (click)="closeProfile()"></div>
+
+<div class="profile-drawer" [class.open]="isOpen$ | async">
+  <div class="drawer-header">
+    <h2>Perfil</h2>
+    <button class="close-btn" (click)="closeProfile()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="drawer-content">
+    <div class="avatar-section">
+      <div class="avatar-large">F</div>
+      <button class="upload-btn">Trocar foto</button>
+    </div>
+
+    <form class="profile-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput type="text" value="Felipe" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>E-mail</mat-label>
+        <input matInput type="email" value="felipe@email.com" disabled />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Pensamento</mat-label>
+        <textarea matInput rows="3" placeholder="Adicione um pensamento..."></textarea>
+      </mat-form-field>
+
+      <div class="status-section">
+        <span class="status-label">Status online</span>
+        <mat-slide-toggle></mat-slide-toggle>
+      </div>
+
+      <button mat-flat-button class="save-btn" type="submit">Salvar</button>
+    </form>
+  </div>
+</div>

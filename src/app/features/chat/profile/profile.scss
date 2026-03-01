@@ -1,0 +1,154 @@
+.profile-container {
+  height: 100vh;
+  background: #0a0812;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #1e1535;
+  background: #0a0812;
+
+  h1 {
+    font-size: 20px;
+    font-weight: 700;
+    flex: 1;
+    text-align: center;
+  }
+}
+
+.back-btn {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #130f25;
+  }
+}
+
+.profile-content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar-large {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #3d2a8e;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 40px;
+}
+
+.upload-btn {
+  background: #3d2a8e;
+  color: #ffffff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #4e38a8;
+  }
+}
+
+.profile-form {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  mat-form-field {
+    width: 100%;
+
+    ::ng-deep {
+      .mdc-notched-outline__leading,
+      .mdc-notched-outline__notch,
+      .mdc-notched-outline__trailing {
+        border-color: #1e1535 !important;
+      }
+
+      .mat-mdc-form-field-focus-overlay {
+        display: none !important;
+      }
+
+      .mdc-floating-label {
+        color: rgba(255, 255, 255, 0.6) !important;
+      }
+
+      .mat-mdc-input-element {
+        color: #ffffff !important;
+      }
+
+      textarea {
+        color: #ffffff !important;
+      }
+    }
+  }
+}
+
+.status-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  background: #130f25;
+  border: 1px solid #1e1535;
+  border-radius: 8px;
+}
+
+.status-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.save-btn {
+  width: 100%;
+  padding: 12px;
+  background: #3d2a8e !important;
+  color: #ffffff !important;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  margin-top: 8px;
+
+  &:hover {
+    background: #4e38a8 !important;
+  }
+}
