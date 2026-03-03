@@ -3,6 +3,7 @@
   height: 100vh;
   background: #0a0812;
   color: #ffffff;
+  border: none;
 }
 
 // SIDEBAR
@@ -12,13 +13,7 @@
   background: #0f0b1a;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid #1e1535;
-  transition: width 0.3s ease, min-width 0.3s ease;
-
-  &.collapsed {
-    width: 60px;
-    min-width: 60px;
-  }
+  border: none;
 }
 
 .sidebar-header {
@@ -26,7 +21,6 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 16px;
-  border-bottom: 1px solid #1e1535;
 
   .app-name {
     font-size: 18px;
@@ -37,32 +31,10 @@
   }
 }
 
-.toggle-sidebar-btn {
-  background: transparent;
-  border: none;
-  color: #ffffff;
-  cursor: pointer;
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s;
-
-  &:hover {
-    background: #130f25;
-  }
-}
-
 .user-list {
   flex: 1;
   padding: 12px 8px;
   overflow-y: auto;
-
-  .sidebar.collapsed & {
-    padding: 8px 4px;
-  }
 }
 
 .user-list-title {
@@ -74,9 +46,6 @@
   padding: 0 8px;
   margin-bottom: 8px;
 
-  .sidebar.collapsed & {
-    display: none;
-  }
 }
 
 .user-item {
@@ -96,10 +65,6 @@
     background: #221840;
   }
 
-  .sidebar.collapsed & {
-    justify-content: center;
-    padding: 8px 4px;
-  }
 }
 
 .avatar {
@@ -149,11 +114,6 @@
     background: #1a1230;
   }
 
-  .sidebar.collapsed & {
-    flex-direction: column;
-    justify-content: center;
-    padding: 8px;
-  }
 }
 
 .my-name {
@@ -161,9 +121,6 @@
   font-weight: 600;
   color: #ffffff;
 
-  .sidebar.collapsed & {
-    display: none;
-  }
 }
 
 // CHAT MAIN
@@ -172,6 +129,10 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  background-color: #100d20;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Crect width='60' height='60' fill='%230e0a1e'/%3E%3Ccircle cx='30' cy='30' r='1' fill='%23221840' opacity='0.6'/%3E%3Cpath d='M0 30 L30 0 L60 30 L30 60 Z' fill='none' stroke='%23221840' stroke-width='0.5' opacity='0.3'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 60px 60px;
 }
 
 .chat-header {
@@ -179,8 +140,7 @@
   align-items: center;
   gap: 12px;
   padding: 16px 20px;
-  border-bottom: 1px solid #1e1535;
-  background: #0a0812;
+  background: #100d20;
   position: relative;
 }
 
@@ -347,6 +307,11 @@
   flex-direction: column;
   gap: 12px;
   overflow-y: auto;
+
+  background-color: #100d20;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Crect width='60' height='60' fill='%230e0a1e'/%3E%3Ccircle cx='30' cy='30' r='1' fill='%23221840' opacity='0.6'/%3E%3Cpath d='M0 30 L30 0 L60 30 L30 60 Z' fill='none' stroke='%23221840' stroke-width='0.5' opacity='0.3'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 60px 60px;
 }
 
 .message {
@@ -361,15 +326,16 @@
 
   &.received {
     align-self: flex-start;
-    background: #130f25;
+    background: #2a1e4e;
     color: #ffffff;
-    border: 1px solid #1e1535;
+    border: 1px solid rgba(255, 255, 255, 0.25);
   }
 
   &.sent {
     align-self: flex-end;
-    background: #3d2a8e;
+    background: #2a1e4e;
     color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
   }
 }
 
@@ -395,15 +361,16 @@
   align-items: center;
 
   svg {
-    width: 14px;
-    height: 14px;
-
-    &.read {
-      stroke: #60a5fa;
+    &.delivered {
+      width: 16px;
+      height: 12px;
+      stroke: rgba(255, 255, 255, 0.4);
     }
 
-    &.delivered {
-      stroke: rgba(255, 255, 255, 0.4);
+    &.read {
+      width: 20px;
+      height: 12px;
+      stroke: #60a5fa;
     }
   }
 }
@@ -412,15 +379,20 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 16px 20px;
-  border-top: 1px solid #1e1535;
-  background: #0a0812;
+  padding: 12px 16px;
+  margin: 16px 20px;
+  background-color: #1a1535;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Crect width='60' height='60' fill='%230e0a1e'/%3E%3Ccircle cx='30' cy='30' r='1' fill='%23221840' opacity='0.6'/%3E%3Cpath d='M0 30 L30 0 L60 30 L30 60 Z' fill='none' stroke='%23221840' stroke-width='0.5' opacity='0.3'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 60px 60px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 24px;
 }
 
 .message-input {
   flex: 1;
-  background: #130f25;
-  border: 1px solid #1e1535;
+  background: #1a1430;
+  border: 1px solid #2a1e4e;
   border-radius: 8px;
   padding: 10px 14px;
   color: #ffffff;
@@ -433,6 +405,61 @@
 
   &:focus {
     border-color: #3d2a8e;
+  }
+}
+
+.media-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s, color 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+.audio-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s, color 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  &.recording {
+    background: #ef4444;
+    color: #ffffff;
+    animation: pulse-record 1s infinite;
+  }
+}
+
+@keyframes pulse-record {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
   }
 }
 
@@ -455,21 +482,21 @@
 }
 
 .new-conversation-btn {
-  background: transparent;
-  border: none;
-  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s, border-color 0.2s;
 
   &:hover {
-    background: #130f25;
-    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.25);
   }
 }
 
@@ -694,4 +721,95 @@
   color: rgba(255, 255, 255, 0.35);
   flex-shrink: 0;
   margin-left: 4px;
+}
+
+// ---- MESSAGE ATTACHMENTS ----
+.msg-image {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 8px;
+  display: block;
+}
+
+.msg-file {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    stroke: currentColor;
+  }
+}
+
+.msg-file-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.msg-filename {
+  font-size: 13px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.msg-filesize {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.msg-audio {
+  max-width: 240px;
+  height: 36px;
+  border-radius: 20px;
+  color: rgba(255, 255, 255, 0.8);
+  accent-color: #3d2a8e;
+
+  /* Chrome/Edge */
+  &::-webkit-media-controls-panel {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  &::-webkit-media-controls-play-button {
+    filter: brightness(1.2);
+  }
+
+  &::-webkit-media-controls-current-time-display,
+  &::-webkit-media-controls-time-remaining-display {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  &::-webkit-media-controls-timeline {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  &::-webkit-media-controls-volume-slider {
+    accent-color: #3d2a8e;
+  }
+
+  /* Firefox */
+  &::-moz-range-track {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  &::-moz-range-progress {
+    background: #3d2a8e;
+  }
+}
+
+// ---- EMOJI PICKER ----
+.emoji-picker-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 49;
+}
+
+.emoji-picker-wrapper {
+  position: absolute;
+  bottom: 90px;
+  left: 20px;
+  z-index: 50;
 }

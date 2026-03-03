@@ -13,12 +13,14 @@ import { NewConversationModal } from '../new-conversation-modal/new-conversation
 import { Observable } from 'rxjs';
 import { User } from '../../../core/models/user.model';
 import { Message } from '../../../core/models/message.model';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @Component({
   selector: 'app-chat-layout',
   imports: [MatFormFieldModule, MatInputModule, MatButtonModule, RouterModule, CommonModule, FormsModule, ProfileDrawer, NewConversationModal],
   templateUrl: './chat-layout.html',
   styleUrl: './chat-layout.scss',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ChatLayout {
   isProfileOpen$: Observable<boolean>;
@@ -34,6 +36,13 @@ export class ChatLayout {
 
   isSidebarCollapsed = false;
   sidebarSearch = '';
+  newMessage = '';
+  showEmojiPicker = false;
+  isRecording = false;
+  recordingTime = 0;
+  recordingInterval: any = null;
+  mediaRecorder: MediaRecorder | null = null;
+  audioChunks: Blob[] = [];
 
   constructor(
     private profileService: ProfileService,
@@ -106,5 +115,100 @@ export class ChatLayout {
 
   deleteConversation(user: User): void {
     this.chatService.deleteConversation(user.id);
+  }
+
+  sendMessage(): void {
+    if (!this.newMessage.trim()) return;
+    this.chatService.sendMessage({ content: this.newMessage });
+    this.newMessage = '';
+  }
+
+  onEmojiSelect(event: any): void {
+    const emoji = event.detail?.emoji;
+    if (emoji) {
+      this.newMessage += emoji;
+      this.showEmojiPicker = false;
+    }
+  }
+
+  toggleEmojiPicker(): void {
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    this.chatService.sendMessage({
+      content: file.name,
+      type: file.type.startsWith('image/') ? 'image' : 'file',
+      fileName: file.name,
+      fileUrl: url,
+      fileSize: file.size,
+    });
+    input.value = '';
+  }
+
+  onAudioSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    this.chatService.sendMessage({
+      content: file.name,
+      type: 'audio',
+      fileName: file.name,
+      fileUrl: url,
+      fileSize: file.size,
+    });
+    input.value = '';
+  }
+
+  async startRecordingAudio(): Promise<void> {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      this.mediaRecorder = new MediaRecorder(stream);
+      this.audioChunks = [];
+      this.isRecording = true;
+
+      this.mediaRecorder.ondataavailable = (event: BlobEvent) => {
+        this.audioChunks.push(event.data);
+      };
+
+      this.mediaRecorder.onstop = () => {
+        const audioBlob = new Blob(this.audioChunks, { type: 'audio/webm' });
+        const url = URL.createObjectURL(audioBlob);
+        this.chatService.sendMessage({
+          content: 'Áudio gravado',
+          type: 'audio',
+          fileName: `áudio_${Date.now()}.webm`,
+          fileUrl: url,
+          fileSize: audioBlob.size,
+        });
+        stream.getTracks().forEach(track => track.stop());
+        this.isRecording = false;
+      };
+
+      this.mediaRecorder.start();
+    } catch (error) {
+      console.error('Erro ao acessar microfone:', error);
+      alert('Permissão de microfone negada ou não disponível');
+      this.isRecording = false;
+    }
+  }
+
+  stopRecordingAudio(): void {
+    if (this.mediaRecorder && this.isRecording) {
+      this.mediaRecorder.stop();
+    }
+  }
+
+  toggleAudioRecording(): void {
+    if (this.isRecording) {
+      this.stopRecordingAudio();
+    } else {
+      this.startRecordingAudio();
+    }
   }
 }

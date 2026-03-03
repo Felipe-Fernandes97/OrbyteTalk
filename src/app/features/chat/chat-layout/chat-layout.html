@@ -1,27 +1,16 @@
 <div class="chat-container">
 
   <!-- Sidebar -->
-  <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
+  <aside class="sidebar">
     <div class="sidebar-header">
-      <button class="toggle-sidebar-btn" (click)="toggleSidebar()" *ngIf="isSidebarCollapsed">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M15 19l-7-7 7-7"/>
-        </svg>
-      </button>
-      <span class="app-name" *ngIf="!isSidebarCollapsed">Conversas</span>
+      <span class="app-name">Conversas</span>
       <button class="new-conversation-btn"
-              *ngIf="!isSidebarCollapsed"
               (click)="openNewConversation()"
               title="Nova conversa">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <line x1="12" y1="5" x2="12" y2="19"/>
           <line x1="5" y1="12" x2="19" y2="12"/>
-        </svg>
-      </button>
-      <button class="toggle-sidebar-btn" (click)="toggleSidebar()" *ngIf="!isSidebarCollapsed">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M9 19l7-7-7-7"/>
         </svg>
       </button>
     </div>
@@ -203,20 +192,37 @@
                *ngFor="let msg of messages$ | async"
                [class.sent]="msg.isSent"
                [class.received]="!msg.isSent">
-            <span class="msg-content">{{ msg.content }}</span>
+            <img *ngIf="msg.type === 'image'" [src]="msg.fileUrl" class="msg-image" [alt]="msg.fileName">
+            <div *ngIf="msg.type === 'file'" class="msg-file">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+                <polyline points="13 2 13 9 20 9"/>
+              </svg>
+              <div class="msg-file-info">
+                <span class="msg-filename">{{ msg.fileName }}</span>
+                <span class="msg-filesize">{{ (msg.fileSize! / 1024).toFixed(1) }} KB</span>
+              </div>
+            </div>
+            <audio *ngIf="msg.type === 'audio'" [src]="msg.fileUrl" controls class="msg-audio"></audio>
+            <span *ngIf="!msg.type || msg.type === 'text'" class="msg-content">{{ msg.content }}</span>
             <div class="msg-meta">
               <span class="msg-time">{{ formatTime(msg.timestamp) }}</span>
               <!-- Ticks só em mensagens enviadas -->
               <span class="msg-ticks" *ngIf="msg.isSent">
-                <!-- ✓✓ lida (azul) -->
-                <svg class="ticks read" *ngIf="msg.isRead" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="20 6 9 17 4 12"/>
-                  <polyline points="20 6 9 17 4 12"/>
+                <!-- ✓ enviado, não lido (cinza) -->
+                <svg *ngIf="!msg.isRead" class="ticks delivered"
+                     xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 16 12"
+                     fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="1,6 5,10 14,1"/>
                 </svg>
-                <!-- ✓✓ entregue (cinza) -->
-                <svg class="ticks delivered" *ngIf="!msg.isRead" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="20 6 9 17 4 12"/>
-                  <polyline points="20 6 9 17 4 12"/>
+                <!-- ✓✓ lido (azul) -->
+                <svg *ngIf="msg.isRead" class="ticks read"
+                     xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 20 12"
+                     fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="1,6 5,10 14,1"/>
+                  <polyline points="6,6 10,10 19,1"/>
                 </svg>
               </span>
             </div>
@@ -224,13 +230,66 @@
         </ng-container>
       </div>
 
+      <!-- Emoji Picker Overlay -->
+      <div *ngIf="showEmojiPicker" class="emoji-picker-overlay" (click)="showEmojiPicker = false"></div>
+
+      <!-- Emoji Picker -->
+      <div *ngIf="showEmojiPicker" class="emoji-picker-wrapper">
+        <em-emoji-picker (emoji-click)="onEmojiSelect($event)" set="twitter" theme="dark" search-position="top"></em-emoji-picker>
+      </div>
+
       <div class="message-input-area" *ngIf="selectedUser$ | async">
-        <input type="text" placeholder="Digite uma mensagem..." class="message-input" />
-        <button class="send-btn">
+        <!-- Emoji -->
+        <button type="button" class="media-btn" title="Emoji" (click)="toggleEmojiPicker()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+            <line x1="9" y1="9" x2="9.01" y2="9"/>
+            <line x1="15" y1="9" x2="15.01" y2="9"/>
+          </svg>
+        </button>
+
+        <!-- Anexar arquivo -->
+        <button type="button" class="media-btn" title="Anexar arquivo" (click)="fileInput.click()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+          </svg>
+        </button>
+
+        <!-- Câmera -->
+        <button type="button" class="media-btn" title="Câmera">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+        </button>
+
+        <input type="text" placeholder="Digite uma mensagem..." class="message-input"
+               [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" />
+
+        <!-- Áudio (Gravação em tempo real) -->
+        <button type="button" class="audio-btn" [class.recording]="isRecording" [title]="isRecording ? 'Parar gravação' : 'Gravar áudio'" (click)="toggleAudioRecording()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+            <line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+        </button>
+
+        <!-- Enviar -->
+        <button type="button" class="send-btn" (click)="sendMessage()">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
             <path d="M2 21l21-9L2 3v7l15 2-15 2v7z" />
           </svg>
         </button>
+
+        <!-- File input (hidden) -->
+        <input #fileInput type="file" accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx,.txt"
+          style="display:none" (change)="onFileSelected($event)">
       </div>
     </ng-container>
   </main>

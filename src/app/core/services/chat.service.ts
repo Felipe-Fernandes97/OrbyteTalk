@@ -197,6 +197,22 @@ export class ChatService {
     }
   }
 
+  sendMessage(partial: Partial<Message>): void {
+    const newMsg: Message = {
+      id: Date.now().toString(),
+      content: partial.content ?? '',
+      timestamp: new Date(),
+      isSent: true,
+      isRead: false,
+      type: partial.type ?? 'text',
+      fileName: partial.fileName,
+      fileUrl: partial.fileUrl,
+      fileSize: partial.fileSize,
+    };
+    const current = this.messagesSubject.getValue();
+    this.messagesSubject.next([...current, newMsg]);
+  }
+
   formatTime(date: Date): string {
     const now = new Date();
     const diff = now.getTime() - date.getTime();
